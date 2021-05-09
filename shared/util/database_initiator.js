@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
+var databaseTableGenerator = require("./database_table_generator");
 
-const sequelize = new Sequelize({
+global["sequelize"] = new Sequelize({
     dialect: 'sqlite',
     storage: 'database.sqlite'
 });
@@ -11,14 +12,18 @@ const sequelize = new Sequelize({
 //   dialect: /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
 // });
 
+
 module.exports = {
     connect: async function () {
         try {
             await sequelize.authenticate();
             console.log('Connection has been established successfully.');
+            await this.generateTables();
+            console.log('Tables has been generated');
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }
-    }
+    },
+    generateTables: () => databaseTableGenerator.generateTables(),
 };
 
