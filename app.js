@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
 const { Sequelize } = require('sequelize');
+var session = require('express-session')
 var app = express();
 require("./util");
 
@@ -15,6 +16,14 @@ require("./util");
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(cors());
+app.use(cors());
+app.use(session({
+  secret: '!R0zlzF',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+
 
 app.use(logger('dev'));
 app.use(express.json());

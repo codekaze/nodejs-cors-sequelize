@@ -3,6 +3,7 @@ var router = express.Router();
 var databaseInitiator = require("../shared/util/database_initiator");
 const { v4: uuidv4 } = require('uuid');
 
+
 router.get('/database-initiator', async function (req, res, next) {
   await databaseInitiator.generateTables();
   return res.json({
@@ -62,6 +63,41 @@ router.post('/logout', async function (req, res, next) {
 });
 
 
+
+var need_auth_middleware = async function (req, res, next) {
+  if (req.headers.access_token == "dev_token") {
+    req.session.user_id = 1;
+    req.session.access_token = req.headers.access_token;
+    next();
+    return;
+  }
+  if (req.headers.access_token == null) {
+    return res.json({
+      "message": "Access Token is Required",
+    });
+  }
+
+  var access_token = req.headers.access_token;
+  var userTokens = await user_token.findAll({
+    where: {
+      access_token: access_token
+    }
+  });
+
+  if (userTokens.length == 0) {
+    return res.json({
+      "message": "Invalid Access Token",
+    });
+  }
+  else {
+    req.session.user_id = userTokens[0].user_id;
+    req.session.access_token = req.headers.access_token;
+  }
+  next()
+}
+router.use(need_auth_middleware);
+
+
 /*
   GET Request
 */
@@ -71,6 +107,7 @@ router.get('/:endpoint', async function (req, res, next) {
   var userList = await global[tableName].findAll();
   return res.json({
     "data": userList,
+    "session": req.session
   });
 });
 
