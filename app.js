@@ -21,6 +21,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//Include All Modules in /module Dir
+var glob = require("glob")
+glob( 'module/**/*.js', function( err, files ) {
+  for(var i=0;i<files.length;i++){
+    var file = files[i].split(".").slice(0, -1).join(".");
+    console.log(file);
+    require("./" + file);
+  }
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
