@@ -7,6 +7,7 @@ var cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
+var publicApiRouter = require('./routes/public_api');
 const { Sequelize } = require('sequelize');
 var session = require('express-session')
 var app = express();
@@ -58,6 +59,7 @@ async function initialize() {
   app.use('/', indexRouter);
   app.use('/users', usersRouter);
   app.use('/api', apiRouter);
+  app.use('/public/api', publicApiRouter);
 
 
   // catch 404 and forward to error handler
