@@ -2,12 +2,8 @@ var express = require('express');
 var router = express.Router();
 var databaseInitiator = require("../shared/util/database_initiator");
 
-
-databaseInitiator.connect();
-
 router.get('/database-initiator', async function (req, res, next) {
-
-
+  await databaseInitiator.generateTables();
   return res.json({
     "message": "init database success",
   });
