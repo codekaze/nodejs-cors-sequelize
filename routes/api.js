@@ -25,6 +25,26 @@ router.get('/:endpoint', async function (req, res, next) {
   });
 });
 
+
+/*
+  GET Request
+*/
+router.get('/:endpoint/:id', async function (req, res, next) {
+  var tableName = req.params.endpoint;
+  var id = req.params.id;
+
+  var userList = await global[tableName].findAll({
+    where: {
+      id: id
+    }
+  });
+
+  return res.json({
+    "data": userList[0],
+  });
+});
+
+
 /*
   POST Request
 */
