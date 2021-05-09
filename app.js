@@ -29,14 +29,15 @@ global["sequelize"] = new Sequelize({
   storage: 'database.sqlite'
 });
 
-// global["sequelize"] = new Sequelize('database', 'username', 'password', {
-//   host: 'localhost',
-//   dialect: /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
+// var databaseName = 'db_test';
+// var username = 'root';
+// var password = '';
+// var host = 'localhost';
+
+// global["sequelize"] = new Sequelize(databaseName, username, password, {
+//   host: host,
+//   dialect: 'mysql'
 // });
-
-
-
-
 
 async function initialize() {
   console.log("###################");

@@ -1,7 +1,6 @@
 const { Sequelize } = require('sequelize');
 var databaseTableGenerator = require("./database_table_generator");
 
-
 global["db"] = {
     connect: async function () {
         try {
